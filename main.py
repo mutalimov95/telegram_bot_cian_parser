@@ -33,6 +33,14 @@ def remove(message):
     bot.reply_to(message, f'Ссылка "{link}" удалена')
 
 
+@bot.message_handler(content_types=['text'])
+def all_text(message):
+    obj = ChatLink.get(chat_id=message.chat.id)
+    link = obj.link
+    obj.delete_instance()
+    bot.reply_to(message, f'Ссылка "{link}" удалена')
+
+
 if __name__ == '__main__':
     thread = Thread(target=pereodic_send_links)
     thread.start()
