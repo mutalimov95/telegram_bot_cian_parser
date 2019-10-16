@@ -12,11 +12,11 @@ def start(message):
     bot.reply_to(message, "Введите ссылку")
 
 
-@bot.message_handler(func=lambda msg: checkers.is_url(msg.text.encode("utf-8")))
+@bot.message_handler(func=lambda msg: checkers.is_url(msg.text))
 def link_save(message):
     chat_id = message.chat.id
-    if ChatLink.select().where(chant_id=chat_id).exist():
-        ChatLink.delete().where(chat_id=chat_id).execute()
+    if ChatLink.select().where(ChatLink.chant_id == chat_id).exist():
+        ChatLink.delete().where(ChatLink.chat_id == chat_id).execute()
     try:
         ChatLink.create(chat_id=chat_id, link=message.text.strip())
     except:  # отлавливаем все подряд
@@ -50,7 +50,7 @@ def curr_link(message):
     bot.reply_to(message, f'Ссылка: "{link}"')
 
 
-@bot.message_handler(func=lambda url: not checkers.is_url(url))
+@bot.message_handler(func=lambda msg: not checkers.is_url(msg.text))
 def all_text(message):
     bot.reply_to(message, message.text)
 
