@@ -27,18 +27,20 @@ def link_save(message):
 
 @bot.message_handler(commands=['remove'])
 def remove(message):
-    obj = ChatLink.get(chat_id=message.chat.id)
-    link = obj.link
-    obj.delete_instance()
+    link = ''
+    try:
+        obj = ChatLink.get(chat_id=message.chat.id)
+    except ChatLink.DoesNotExist:
+        pass
+    else:
+        link = obj.link
+        obj.delete_instance()
     bot.reply_to(message, f'Ссылка "{link}" удалена')
 
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(func=lambda url: not checkers.is_url(url))
 def all_text(message):
-    obj = ChatLink.get(chat_id=message.chat.id)
-    link = obj.link
-    obj.delete_instance()
-    bot.reply_to(message, f'Ссылка "{link}" удалена')
+    bot.reply_to(message, message.text)
 
 
 if __name__ == '__main__':
