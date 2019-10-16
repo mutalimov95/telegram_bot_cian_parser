@@ -15,7 +15,7 @@ def start(message):
 @bot.message_handler(func=lambda msg: checkers.is_url(msg.text))
 def link_save(message):
     chat_id = message.chat.id
-    if ChatLink.select().where(ChatLink.chat_id == chat_id).exist():
+    if ChatLink.select().where(ChatLink.chat_id == chat_id).exists():
         ChatLink.delete().where(ChatLink.chat_id == chat_id).execute()
     try:
         ChatLink.create(chat_id=chat_id, link=message.text.strip())
