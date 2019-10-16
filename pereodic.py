@@ -1,10 +1,10 @@
 import time
 import random
 
-from .models import ChatLink
-from .utils import format_key_for_cache
-from .parser import parse
-from .settings import bot, CACHE
+from models import ChatLink
+from utils import format_key_for_cache
+from parser import parse
+from settings import bot, CACHE
 
 
 def pereodic_send_links():

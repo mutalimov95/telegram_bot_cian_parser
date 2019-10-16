@@ -2,9 +2,9 @@ from threading import Thread
 
 from validator_collection import checkers
 
-from .models import ChatLink
-from .settings import bot
-from .pereodic import pereodic_send_links
+from models import ChatLink
+from settings import bot
+from pereodic import pereodic_send_links
 
 
 @bot.message_handler(commands=['start'])
