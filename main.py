@@ -38,6 +38,18 @@ def remove(message):
     bot.reply_to(message, f'Ссылка "{link}" удалена')
 
 
+@bot.message_handler(commands=['link'])
+def remove(message):
+    link = ''
+    try:
+        obj = ChatLink.get(chat_id=message.chat.id)
+    except ChatLink.DoesNotExist:
+        pass
+    else:
+        link = obj.link
+    bot.reply_to(message, f'Ссылка: "{link}"')
+
+
 @bot.message_handler(func=lambda url: not checkers.is_url(url))
 def all_text(message):
     bot.reply_to(message, message.text)
