@@ -15,13 +15,13 @@ def pereodic_send_links():
                 chat_id = chat['chat_id']
                 link = chat['link']
                 card_urls = parse(link)
-                if card_urls:
+                new_urls = [u for u in card_urls if CACHE.get(format_key_for_cache(chat_id, u)) is None]
+                if new_urls:
                     bot.send_message(chat_id, '-' * 5)
-                for url in card_urls:
-                    if CACHE.get(format_key_for_cache(chat_id, url)) is None:
-                        CACHE[format_key_for_cache(chat_id, url)] = url
-                        bot.send_message(chat_id, url)
-                if card_urls:
+                for url in new_urls:
+                    CACHE[format_key_for_cache(chat_id, url)] = url
+                    bot.send_message(chat_id, url)
+                if new_urls:
                     bot.send_message(chat_id, '-' * 5)
         except Exception as e:  # никогда не прекращаем работу
             print(e)
