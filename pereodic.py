@@ -12,8 +12,8 @@ def pereodic_send_links():
         try:
             chatlinks = ChatLink.select().dicts()
             for chat in chatlinks:
-                chat_id = chat.chat_id
-                link = chat.link
+                chat_id = chat['chat_id']
+                link = chat['link']
                 card_urls = parse(link)
                 for url in card_urls:
                     if CACHE.get(format_key_for_cache(chat_id, url)) is None:
